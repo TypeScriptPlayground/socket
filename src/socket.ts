@@ -11,7 +11,7 @@ const textDecoder = new TextDecoder();
  */
 export class Socket {
   readonly socketPath : string;
-  readonly connection : Promise<Deno.UnixConn>;
+  private readonly connect: () => Promise<Deno.UnixConn>;
 
   /**
    * Create a new UNIX socket instance.
@@ -29,20 +29,17 @@ export class Socket {
     );
     
     this.socketPath = socketPath;
-    this.connection = socketOptions.connect({path: socketPath, transport: 'unix'});
+    this.connect = () => socketOptions.connect({path: this.socketPath, transport: 'unix'});
   }
 
-  /**
-   * Write to the socket.
-   * 
-   * @param path Path to write to, ex. `/api/info`
-   * @param init Init options for the request
-   */
-  private async write(
+  public async request(
     path : string,
-    init : SocketRequestInit
-  ) : Promise<number> {
-    const connection = await this.connection;
+    init : SocketRequestInit = {
+      method: method.GET,
+      headers: {}
+    }
+  ): Promise<Response> {
+    const connection = await this.connect();
 
     const headers = Object.assign({
       Connection: 'close',
@@ -57,24 +54,19 @@ export class Socket {
     ];
 
     const requestPayload = headerLines.join("\r\n");
-    return connection.write(textEncoder.encode(requestPayload));
-  }
-
-  public async request(
-    path : string,
-    init : SocketRequestInit = {
-      method: method.GET,
-      headers: {}
-    }
-  ): Promise<Response> {
-    const connection = await this.connection;
-    await this.write(path, init);
+    await connection.write(textEncoder.encode(requestPayload));
 
     let buffer = new Uint8Array()
     for await (const chunk of connection.readable) {
       buffer = new Uint8Array([...buffer, ...chunk])
     }
 
+    try {
+      connection.close();
+    } catch (error) {
+      // We assume that the connection got already closed.
+    }
+    
     return parse(textDecoder.decode(buffer));
   }
 }
