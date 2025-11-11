@@ -10,14 +10,14 @@ import { InvalidChunkSizeError, MalformedChunkedEncodingError } from '../../erro
  * 
  * @example
  * ```
- * 5\r\n
- * Hello\r\n
  * 6\r\n
- *  World\r\n
+ * Hello \r\n
+ * 6\r\n
+ * World!\r\n
  * 0\r\n
  * \r\n
  * ```
- * Results in: "Wikipedia"
+ * Results in: "Hello World!"
  * 
  * @param body The chunked encoded body string
  * @throws `MalformedChunkedEncodingError` if the chunked encoding is malformed
