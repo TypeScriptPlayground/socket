@@ -2,7 +2,7 @@ name: Run Linter
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
   workflow_dispatch:
 
@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Setup Repository
+      - name: 'Setup Repository'
         uses: actions/checkout@v4
 
       - name: 'Setup Deno'
         uses: denoland/setup-deno@v2
         with:
           deno-version: 'v2.x'
-      
+
       - name: 'Run Linter'
         run: deno task lint
