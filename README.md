@@ -1,12 +1,21 @@
-# Template
+# UNIX Socket
 
 [![Run Linter](https://github.com/DenoPlayground/Template/actions/workflows/lint.yml/badge.svg)](https://github.com/DenoPlayground/Template/actions/workflows/lint.yml)
 [![Run Unit Tests](https://github.com/DenoPlayground/Template/actions/workflows/test.yml/badge.svg)](https://github.com/DenoPlayground/Template/actions/workflows/test.yml)
 
-This is a template for a Deno module.
+Use this library to open and connect to UNIX sockets, send requests and get responses similar to a fetch request. This
+library supports basic response chunk decoding.
 
-## File/Directory Structure
+## Example
 
-- `cli.ts` - File for functions which should be executed directly for the module.
-- `src/` - Directory for storing all source code.
-- `docs/` - Directory for storing all documentation files specific for the module.
+Connect to the `docker.sock` UNIX socket, send a request to `/containers/json` and log the response.
+
+```ts
+import { Socket } from '@typescriptplayground/socket';
+
+const socket = new Socket('/var/run/docker.sock');
+
+await socket.request('/containers/json')
+  .then((res) => res.json())
+  .then((json) => console.log(json));
+```
