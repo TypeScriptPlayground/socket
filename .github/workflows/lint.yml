@@ -14,17 +14,15 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    env:
-      deno-version: lts
 
     steps:
-      - name: 'Setup Repository (${{github.event.repository.name}})'
+      - name: 'Setup Repository
         uses: actions/checkout@v4
 
       - name: 'Setup Deno'
-        uses: denoland/setup-deno@v2.0.3
+        uses: denoland/setup-deno@v2
         with:
-          deno-version: ${{env.deno-version}}
+          deno-version: 'v2.x'
       
       - name: 'Run Linter'
         run: deno task lint

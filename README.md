@@ -1,7 +1,7 @@
 # UNIX Socket
 
-[![Run Linter](https://github.com/DenoPlayground/Template/actions/workflows/lint.yml/badge.svg)](https://github.com/DenoPlayground/Template/actions/workflows/lint.yml)
-[![Run Unit Tests](https://github.com/DenoPlayground/Template/actions/workflows/test.yml/badge.svg)](https://github.com/DenoPlayground/Template/actions/workflows/test.yml)
+[![Run Linter](https://github.com/TypeScriptPlayground/socket/actions/workflows/lint.yml/badge.svg)](https://github.com/TypeScriptPlayground/socket/actions/workflows/lint.yml)
+[![Run Unit Tests](https://github.com/TypeScriptPlayground/socket/actions/workflows/test.yml/badge.svg)](https://github.com/TypeScriptPlayground/socket/actions/workflows/test.yml)
 
 Use this library to open and connect to UNIX sockets, send requests and get responses similar to a fetch request. This
 library supports basic response chunk decoding.
