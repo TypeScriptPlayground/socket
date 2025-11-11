@@ -38,7 +38,7 @@ export class Socket {
       method: method.GET,
       headers: {}
     }
-  ): Promise<Response> {
+  ) : Promise<Response> {
     const connection = await this.connect();
 
     const headers = Object.assign({
@@ -63,7 +63,7 @@ export class Socket {
 
     try {
       connection.close();
-    } catch (error) {
+    } catch (_error) {
       // We assume that the connection got already closed.
     }
     

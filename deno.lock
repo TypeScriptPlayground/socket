@@ -1,22 +1,11 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@loat-dev/lint-plugins@0.3.11": "0.3.11",
-    "jsr:@std/assert@^1.0.15": "1.0.15",
-    "jsr:@std/internal@^1.0.12": "1.0.12"
+    "jsr:@loat-dev/lint-plugins@0.3.12": "0.3.12"
   },
   "jsr": {
-    "@loat-dev/lint-plugins@0.3.11": {
-      "integrity": "42dd8cd6fafa88560757df584afd7028e413a288da3481b360c5813c693973be"
-    },
-    "@std/assert@1.0.15": {
-      "integrity": "d64018e951dbdfab9777335ecdb000c0b4e3df036984083be219ce5941e4703b",
-      "dependencies": [
-        "jsr:@std/internal"
-      ]
-    },
-    "@std/internal@1.0.12": {
-      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
+    "@loat-dev/lint-plugins@0.3.12": {
+      "integrity": "4fb73792a4c99efd2957b69543bfc2be8e95298e1aac5017c3e2509f3d9b5544"
     }
   },
   "workspace": {
