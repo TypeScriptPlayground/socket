@@ -5,12 +5,26 @@ Deno.test('Tests "parseHeaders"', async (test) => {
   await test.step({
     name: 'Parse valid HTTP headers.',
     fn() : void {
-      const responseContent = 'key-1: value1\r\nkey-2: value 2 with space'
+      const responseContent = 'key-1: Value1\r\nkey-2: Value 2 with Space'
       assertEquals(
         Object.fromEntries(parseHeaders(responseContent)),
         {
-          'key-1': 'value1',
-          'key-2': 'value 2 with space'
+          'key-1': 'Value1',
+          'key-2': 'Value 2 with Space'
+        }
+      )
+    }
+  })
+
+  await test.step({
+    name: 'Parse (valid) HTTP headers. Keys should be lower-case. Values not.',
+    fn() : void {
+      const responseContent = '\r\nKey-1: Value1\r\nKey-2: Value 2 with Space\r\n'
+      assertEquals(
+        Object.fromEntries(parseHeaders(responseContent)),
+        {
+          'key-1': 'Value1',
+          'key-2': 'Value 2 with Space'
         }
       )
     }
@@ -19,7 +33,7 @@ Deno.test('Tests "parseHeaders"', async (test) => {
   await test.step({
     name: 'Parse (valid) HTTP headers. With leading/trailing newline.',
     fn() : void {
-      const responseContent = '\r\nkey-1: value1\r\nkey-2: value 2 with space\r\n'
+      const responseContent = '\r\nKey-1: value1\r\nKey-2: value 2 with space\r\n'
       assertEquals(
         Object.fromEntries(parseHeaders(responseContent)),
         {

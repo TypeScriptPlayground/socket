@@ -10,8 +10,10 @@ export function parse(response : string) : Response {
   const headers = parseHeaders(splitResult.headers);
   let body = splitResult.body;
 
-  if (headers.get('Transfer-Encoding') === 'chunked') {
+  if (headers.get('transfer-encoding') === 'chunked') {
     body = parseChunkedBody(body);
+  } else {
+    body = body.replace(/\r\n\r\n$/gm, '');
   }
 
   return new Response(
