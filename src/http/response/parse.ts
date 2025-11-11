@@ -13,7 +13,7 @@ export function parse(response : string) : Response {
   if (headers.get('transfer-encoding') === 'chunked') {
     body = parseChunkedBody(body);
   } else {
-    body = body.replace(/\r\n\r\n$/gm, '');
+    body = body.replace(/\r\n$/gm, '');
   }
 
   return new Response(
