@@ -2,6 +2,7 @@ import { method } from './method.ts';
 import { SocketRequestInit } from './socket_request_init.ts';
 import { SocketOptions } from './socket_options.ts';
 import { parse } from './http/response/parse.ts';
+import { bodyToString } from './http/request/index.ts';
 
 const textEncoder = new TextEncoder();
 const textDecoder = new TextDecoder();
@@ -34,27 +35,29 @@ export class Socket {
 
   public async request(
     path : string,
-    init : SocketRequestInit = {
-      method: method.GET,
-      headers: {}
-    }
+    init? : SocketRequestInit
   ) : Promise<Response> {
     const connection = await this.connect();
 
     const headers = Object.assign({
       Connection: 'close',
-      Host: 'localhost'
-    }, {...init.headers})
+      Host: 'localhost',
+    }, {...init?.headers})
 
-    const headerLines = [
-      `${init.method} ${path} HTTP/1.1`,
+    let bodyString = '';
+    if (init?.body) {
+      bodyString = await bodyToString(init.body);
+      headers['Content-Length'] ??= new TextEncoder().encode(bodyString).length.toString();
+    }
+
+    const payload = [
+      `${init?.method ?? method.GET} ${path} HTTP/1.1`,
       ...Object.entries(headers).map(([key, value]) => `${key}: ${value}`),
       '',
-      ''
-    ];
+      bodyString
+    ].join("\r\n");
 
-    const requestPayload = headerLines.join("\r\n");
-    await connection.write(textEncoder.encode(requestPayload));
+    await connection.write(textEncoder.encode(payload));
 
     let buffer = new Uint8Array()
     for await (const chunk of connection.readable) {

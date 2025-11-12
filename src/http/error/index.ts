@@ -1,3 +1,4 @@
+export { InvalidBodyTypeError } from './invalid_body_type_error.ts'
 export { InvalidChunkSizeError } from './invalid_chunk_size_error.ts'
 export { InvalidResponseError } from './invalid_response_error.ts'
 export { InvalidStartLineError } from './invalid_start_line_error.ts'
